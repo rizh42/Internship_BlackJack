@@ -1,44 +1,25 @@
 require_relative 'game'
-require_relative 'card'
+require_relative 'deck'
+require_relative 'hand'
 
 class Player
-  attr_accessor :name, :current_money, :cards, :current_sum
+  attr_accessor :name, :current_money, :cards, :current_sum, :hand
 
-  def initialize(name = 'anon')
+  def initialize(deck, name = 'anon')
     @name = name
     @current_money = 100
-    @cards = [Card.new, Card.new]
-    @current_sum = sum
+    @hand = Hand.new(deck)
+  end
+
+  def sum
+    hand.current_sum
   end
 
   def recieve_card
-    @cards << Card.new
-    @current_sum = sum
+    hand.recieve_card
   end
 
   def bet
     @current_money -= 10
   end
-
-  def sum
-    sum = 0
-    cards.each do |card|
-      if card.rank == 2..10
-        sum += card.rank
-      else
-        if card.rank == 'A'
-          if sum <= 10
-            sum += 11
-          else
-            sum += 1
-          end
-        else
-          sum += 10
-        end
-      end
-    end
-    return sum
-  end
-
-
 end

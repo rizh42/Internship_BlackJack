@@ -1,15 +1,11 @@
 require_relative 'player'
 
 class Dealer < Player
-  def initialize
-    super('Dealer')
+  def initialize(deck)
+    super(deck, 'Dealer')
   end
 
   def make_move
-    if @current_sum >= 17 || @current_cards.length == 3
-      return
-    else
-      recieve_card
-    end
+    recieve_card unless @hand.current_sum >= 17 || @hamd.cards.length == 3
   end
 end

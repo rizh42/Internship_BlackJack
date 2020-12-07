@@ -16,10 +16,14 @@ class Interface
     puts 'The game has started'
     @game.bet
     puts 'Enter command:'
+    choice
+  end
+
+  def choice
     loop do
       show_current_situation
       command = gets.chomp!
-      if @game.player.cards.length < 3
+      if @game.player.hand.cards.length < 3
         case command
         when 'a'
           @game.dealer_move
@@ -43,7 +47,7 @@ class Interface
 
   def show_current_situation
     puts 'Your cards:'
-    @game.player.cards.each do |card|
+    @game.player.hand.cards.each do |card|
       puts "#{card.rank}#{card.suit}"
     end
     puts "Dealer's cards:"
@@ -52,19 +56,21 @@ class Interface
 
   def open_cards
     puts 'Your cards:'
-    @game.player.cards.each do |card|
+    @game.player.hand.cards.each do |card|
       puts "#{card.rank}#{card.suit}"
     end
+    puts "Your points: #{@game.player.hand.current_sum}"
     puts "Dealer's cards:"
-    @game.dealer.cards.each do |card|
+    @game.dealer.hand.cards.each do |card|
       puts "#{card.rank}#{card.suit}"
     end
+    puts "Dealer's points: #{@game.dealer.hand.current_sum}"
     case @game.win
-    when -1
+    when 'dealer'
       puts 'Dealer wins!'
-    when 0
+    when 'draw'
       puts "Draw"
-    when 1
+    when 'player'
       puts 'Player wins!'
     end
   end

@@ -2,16 +2,17 @@ require_relative 'dealer'
 require_relative 'player'
 
 class Game
-  attr_accessor :player, :dealer, :current_bet
+  attr_accessor :player, :dealer, :current_bet, :current_deck
 
   def initialize(name)
-    @player = Player.new(name)
-    @dealer = Dealer.new
+    @current_deck = Deck.new
+    @player = Player.new(current_deck, name)
+    @dealer = Dealer.new(current_deck)
     @current_bet = 0
   end
 
   def recieve_card
-    player.recieve_card
+    player.hand.recieve_card
   end
 
   def bet
@@ -25,21 +26,20 @@ class Game
   end
 
   def win
-    flag = 0
-    if @player.current_sum == 21 || ((21 - @player.current_sum) > (21 - @dealer.current_sum) && @player.current_sum < 21)
-      flag = 1
+    if @player.sum == 21 || ((21 - @player.sum) > (21 - @dealer.sum) && @player.sum < 21)
+      winner = "player"
       @player.current_money += current_bet
       @current_bet = 0
-    elsif @player.current_sum == @dealer.current_sum
-      flag = 0
+    elsif @player.sum == @dealer.sum
+      winner = "draw"
       @dealer.current_money += 10
       @player.current_money += 10
       @current_bet = 0
     else 
-      flag = -1
+      winner = "dealer"
       @dealer.current_money += current_bet
       @current_bet = 0
     end
-    flag
+    winner
   end
 end
