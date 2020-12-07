@@ -3,7 +3,12 @@ class Card
 
   def initialize(deck)
     current_card = deck.card
-    @rank = current_card[0]
-    @suit = current_card[1]
+    if current_card.length == 2
+      @rank = current_card[0]
+      @suit = current_card[1]
+    else
+      @rank = current_card[0] + current_card[1]
+      @suit = current_card[2]
+    end
   end
 end

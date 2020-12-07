@@ -26,20 +26,18 @@ class Game
   end
 
   def win
-    if @player.sum == 21 || ((21 - @player.sum) > (21 - @dealer.sum) && @player.sum < 21)
-      winner = "player"
+    if @player.sum == 21 || (((21 - @player.sum) < (21 - @dealer.sum)) && @player.sum < 21)
+      winner = 'player'
       @player.current_money += current_bet
-      @current_bet = 0
     elsif @player.sum == @dealer.sum
-      winner = "draw"
+      winner = 'draw'
       @dealer.current_money += 10
       @player.current_money += 10
-      @current_bet = 0
-    else 
-      winner = "dealer"
+    else
+      winner = 'dealer'
       @dealer.current_money += current_bet
-      @current_bet = 0
     end
+    @current_bet = 0
     winner
   end
 end

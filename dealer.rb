@@ -6,6 +6,6 @@ class Dealer < Player
   end
 
   def make_move
-    recieve_card unless @hand.current_sum >= 17 || @hamd.cards.length == 3
+    recieve_card unless sum >= 17 || hand.cards.length == 3
   end
 end

@@ -17,8 +17,8 @@ class Hand
   def sum
     sum = 0
     @cards.each do |card|
-      if card.rank == 2..10
-        sum += card.rank
+      if card.rank =~ /\d/
+        sum += card.rank.to_i
       else
         if card.rank == 'A'
           if sum <= 10
