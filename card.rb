@@ -14,6 +14,6 @@ class Card
   end
 
   def picture?
-    @rank == 'J' || @rank == 'Q' || @rank == 'K'
+    RANKS[9..11].include? @rank
   end
 end
