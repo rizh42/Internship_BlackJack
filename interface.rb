@@ -23,7 +23,7 @@ class Interface
     loop do
       show_current_situation
       command = gets.chomp!
-      if (@game.player.hand.cards.length < 3 || @game.player.sum >= 21) && (@game.dealer.hand.cards.length < 3 || @game.dealer.sum >= 21)
+      if end_condition
         case command
         when 'a'
           @game.dealer_move
@@ -44,10 +44,14 @@ class Interface
     end
   end
 
+  def end_condition
+    (@game.player.hand.cards.length < 3 || @game.player.sum >= 21) && (@game.dealer.hand.cards.length < 3 || @game.dealer.sum >= 21)
+  end
+  
   def show_current_situation
     puts 'Your cards:'
     @game.player.hand.cards.each do |card|
-      puts "#{card.rank}#{card.suit}"
+      puts "#{card}"
     end
     puts "Dealer's cards:"
     puts '*******'
@@ -56,12 +60,12 @@ class Interface
   def open_cards
     puts 'Your cards:'
     @game.player.hand.cards.each do |card|
-      puts "#{card.rank}#{card.suit}"
+      puts "#{card}"
     end
     puts "Your points: #{@game.player.sum}"
     puts "Dealer's cards:"
     @game.dealer.hand.cards.each do |card|
-      puts "#{card.rank}#{card.suit}"
+      puts card
     end
     puts "Dealer's points: #{@game.dealer.sum}"
     case @game.win

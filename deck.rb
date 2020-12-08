@@ -19,7 +19,7 @@ class Deck
   def build_deck
     RANKS.each do |rank|
       SUITS.each do |suit|
-        @all_cards << rank + suit
+        @all_cards << "#{rank}#{suit}"
       end
     end
   end
