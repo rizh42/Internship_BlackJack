@@ -17,6 +17,15 @@ class Interface
     @game.bet
     puts 'Enter command:'
     choice
+    loop do
+      puts "Play again?\nYes/No"
+      cmd = gets.chomp!
+      if cmd == 'Yes'
+        choice
+      else 
+        break
+      end
+    end
   end
 
   def choice
