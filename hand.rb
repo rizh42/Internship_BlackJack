@@ -12,27 +12,21 @@ class Hand
     @current_sum = sum
   end
 
-  def rank(card)
-    card.chop
-  end
-
   def sum
     sum = 0
     aces = 0
     @cards.each do |card|
-      if rank(card) =~ /\d/
-        sum += rank(card).to_i
+      if card.ace?
+        sum += 11
+        aces += 1
+      elsif card.picture?
+        sum += 10
       else
-        if rank(card) == 'A'
-          sum += 11
-          aces += 1
-        else
-          sum += 10
-        end
+        sum += card.rank.to_i
       end
     end
     check_aces(sum, aces)
-    return sum
+    sum
   end
 
   def check_aces(sum, aces)

@@ -1,10 +1,11 @@
 require_relative 'game'
 
 class Interface
+  attr_accessor :name
+
   def initialize
     puts 'Hello, enter your name:'
-    name = gets.chomp!
-    @game = Game.new(name)
+    @name = gets.chomp!
     puts 'List of available commands:'
     puts 'a) Miss a turn'
     puts 'b) Add a card'
@@ -14,15 +15,18 @@ class Interface
 
   def start_game
     puts 'The game has started'
+    @game = Game.new(name)
     @game.bet
     puts 'Enter command:'
     choice
     loop do
+      puts '-------------------'
       puts "Play again?\nYes/No"
       cmd = gets.chomp!
       if cmd == 'Yes'
-        choice
-      else 
+        puts '+++++++++++++'
+        start_game
+      else
         break
       end
     end
@@ -54,29 +58,21 @@ class Interface
   end
 
   def end_condition
-    (@game.player.hand.cards.length < 3 || @game.player.sum >= 21) && (@game.dealer.hand.cards.length < 3 || @game.dealer.sum >= 21)
+    (@game.player.hand.cards.length < 3 && @game.player.sum <= 21) && (@game.dealer.hand.cards.length < 3 && @game.dealer.sum <= 21)
   end
-  
+
   def show_current_situation
     puts 'Your cards:'
     @game.player.hand.cards.each do |card|
-      puts "#{card}"
+      puts "#{card.rank}#{card.suit}"
     end
     puts "Dealer's cards:"
-    puts '*******'
+    @game.dealer.hand.cards.each do
+      puts '*'
+    end
   end
 
-  def open_cards
-    puts 'Your cards:'
-    @game.player.hand.cards.each do |card|
-      puts "#{card}"
-    end
-    puts "Your points: #{@game.player.sum}"
-    puts "Dealer's cards:"
-    @game.dealer.hand.cards.each do |card|
-      puts card
-    end
-    puts "Dealer's points: #{@game.dealer.sum}"
+  def test_win
     case @game.win
     when 'dealer'
       puts 'Dealer wins!'
@@ -85,5 +81,19 @@ class Interface
     when 'player'
       puts 'Player wins!'
     end
+  end
+
+  def open_cards
+    puts 'Your cards:'
+    @game.player.hand.cards.each do |card|
+      puts "#{card.rank}#{card.suit}"
+    end
+    puts "Your points: #{@game.player.sum}"
+    puts "Dealer's cards:"
+    @game.dealer.hand.cards.each do |card|
+      puts "#{card.rank}#{card.suit}"
+    end
+    puts "Dealer's points: #{@game.dealer.sum}"
+    test_win
   end
 end

@@ -1,9 +1,6 @@
+require_relative 'card'
+
 class Deck
-  attr_accessor :all_cards
-
-  RANKS = %w[2 3 4 5 6 7 8 9 10 J Q K A].freeze
-  SUITS = ["\u2665", "\u2666", "\u2663", "\u2660"].freeze
-
   def initialize
     @all_cards = []
     build_deck
@@ -16,10 +13,12 @@ class Deck
 
   private
 
+  attr_accessor :all_cards
+
   def build_deck
-    RANKS.each do |rank|
-      SUITS.each do |suit|
-        @all_cards << "#{rank}#{suit}"
+    Card::RANKS.each do |rank|
+      Card::SUITS.each do |suit|
+        @all_cards << Card.new(rank, suit)
       end
     end
   end
